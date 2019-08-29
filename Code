@@ -1,0 +1,47 @@
+# Set up and intro
+import seaborn as sns
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+
+iowa_file_path = '../input/house-prices-advanced-regression-techniques/train.csv'
+home_data = pd.read_csv(iowa_file_path)
+home_data
+home_data.columns
+
+
+# Feature specifications, experiment with possible different features / explanatory variables.
+features1 = ['LotArea', 'YearBuilt', '1stFlrSF', '2ndFlrSF', 'FullBath', 'BedroomAbvGr', 'TotRmsAbvGrd']  # simple model / possible baseline
+features2 = ['LotArea', 'YearBuilt', 'BedroomAbvGr', 'TotRmsAbvGrd', 'KitchenQual', 'FullBath', 'GrLivArea', 'OverallQual',  ]
+features3 = 
+features4
+
+
+
+# Data exploration / visualization in explanatory variables & relationships with dependent variable(saleprice)
+
+sns.catplot(x='KitchenQual', y='SalePrice', data=home_data) # somewhat positive correlation between kitchen quality & price
+sns.relplot(x='GrLivArea', y='SalePrice', data=home_data) # strong positive correlation & linearity between Y & X
+sns.catplot(x='FullBath', y='SalePrice', data=home_data) # somewhat positive correlation between # baths & price
+sns.catplot(x='TotRmsAbvGrd', y='SalePrice', data=home_data) # strong positive correlation between bedrooms & price
+sns.catplot(x='BedroomAbvGr', y='SalePrice', data=home_data) # weak positive correlation, possible check effects with higher sqft houses? (Interaction term differences)
+sns.catplot(x='YearBuilt', y='SalePrice', data=home_data) # weak positive correlation, check interaction terms with other variables
+
+sns.catplot(x='Condition1', y='SalePrice', data=home_data) # weak correlation / no correlation
+sns.catplot(x='OverallQual', y='SalePrice', data=home_data) # strong positive correlation
+sns.catplot(x='OverallCond', y='SalePrice', data=home_data) # week/no correlation above values of 5 to 10
+
+
+
+# Data exploration / visualization continued
+%matplotlib inline
+
+# Visualizing how neighborhood categories are associated with price to address categorical variable encoding issue
+# 1 method is to group the neighborhoods by 2 categories, rich and poor, for this I try to see if there significant differences in price across neighborhoods
+# Visually I don't see much evidence for this so I don't thinks this method of encoding would be useful.
+sns.relplot(x='LotArea', y='SalePrice', data=home_data, hue='Neighborhood')
+plt.xlim(0,80000)
+
+avgprice = home_data['SalePrice'].mean()
+avgprice
+
+sns.catplot(x='Neighborhood', y='SalePrice', data=home_data) # average seems to lie ~ 200k and only see 1 neighborhood that has noticeably higher prices
