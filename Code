@@ -16,11 +16,25 @@ home_data.columns
 features1 = ['LotArea', 'YearBuilt', '1stFlrSF', '2ndFlrSF', 'FullBath', 'BedroomAbvGr', 'TotRmsAbvGrd']  # simple model / possible baseline
 features2 = ['LotArea', 'YearBuilt', 'BedroomAbvGr', 'TotRmsAbvGrd', 'KitchenQual', 'FullBath', 'GrLivArea', 'OverallQual',  ]
 features3 = 
-features4
+features4 =
+
+
+### First things first
+# Descriptive statistics summaries
+home_data['SalePrice'].describe()     # the max value seems like an outliner considering the standard deviation and mean of our sales prices. check into removing outliers
+
+
+plt.hist(home_data['SalePrice'], bins = 100) # distribution looks to be right skewed, not normal.
+sns.distplot(home_data['SalePrice']) # seaborn makes it easier to graph with a line going around the distribution, harder to do with matplotlib
+
+print("Skewness: %f" % home_data['SalePrice'].skew()) # scipy-stats skewness computed as fisher-pearson coefficient of sample skewness, 
+# normal distribution would have skew of 0 or close to 0
+
+print("Kurtosis: %f" % home_data['SalePrice'].kurt()) # scipy stats kurtosis, >3 value indicates higher number of outliers than normal distribution, extreme deviations from mean
 
 
 
-# Data exploration in explanatory variables & relationships with dependent variable(saleprice)
+### Data exploration in explanatory variables & relationships with dependent variable(saleprice)
 
 sns.boxplot(x='KitchenQual', y='SalePrice', data=home_data) # somewhat positive correlation between kitchen quality & price, ORDINAL data, encode
 sns.relplot(x='GrLivArea', y='SalePrice', data=home_data) # strong positive linearity between Y & X
@@ -56,7 +70,7 @@ sns.boxplot(x='BedroomAbvGr', y='SalePrice', data=home_data) # no correlation be
 ### check markdown on kaggle kernel
 
 
-# Data exploration / visualization continued
+### Data exploration / visualization continued
 %matplotlib inline
 
 # Visualizing how neighborhood categories are associated with price to address categorical variable encoding issue
