@@ -20,19 +20,40 @@ features4
 
 
 
-# Data exploration / visualization in explanatory variables & relationships with dependent variable(saleprice)
+# Data exploration in explanatory variables & relationships with dependent variable(saleprice)
 
-sns.catplot(x='KitchenQual', y='SalePrice', data=home_data) # somewhat positive correlation between kitchen quality & price
-sns.relplot(x='GrLivArea', y='SalePrice', data=home_data) # strong positive correlation & linearity between Y & X
-sns.catplot(x='FullBath', y='SalePrice', data=home_data) # somewhat positive correlation between # baths & price
-sns.catplot(x='TotRmsAbvGrd', y='SalePrice', data=home_data) # strong positive correlation between bedrooms & price
-sns.catplot(x='BedroomAbvGr', y='SalePrice', data=home_data) # weak positive correlation, possible check effects with higher sqft houses? (Interaction term differences)
-sns.catplot(x='YearBuilt', y='SalePrice', data=home_data) # weak positive correlation, check interaction terms with other variables
+sns.boxplot(x='KitchenQual', y='SalePrice', data=home_data) # somewhat positive correlation between kitchen quality & price, ORDINAL data, encode
+sns.relplot(x='GrLivArea', y='SalePrice', data=home_data) # strong positive linearity between Y & X
+    # 2 outliers in bottom right when we plot this relationship, best to remove them to avoid it pulling regression line. Be careful however, outliers could contain critical information
+    # regarding the data, best to look into those 2 samples and see what's going on before impulsively removing them.
+    
+sns.boxplot(x='FullBath', y='SalePrice', data=home_data) # somewhat positive linearity between # baths & price in the range of 1-3 bathrooms
+sns.boxplot(x='TotRmsAbvGrd', y='SalePrice', data=home_data) # weak positive linearity between bedrooms & price. It only seems significant increase in price from increase in number of rooms
+# in the range of 7-9 rooms.
 
-sns.catplot(x='Condition1', y='SalePrice', data=home_data) # weak correlation / no correlation
-sns.catplot(x='OverallQual', y='SalePrice', data=home_data) # strong positive correlation
-sns.catplot(x='OverallCond', y='SalePrice', data=home_data) # week/no correlation above values of 5 to 10
+sns.catplot(x='BedroomAbvGr', y='SalePrice', data=home_data) # weak positive linearity, possible check effects with higher sqft houses? (Interaction term differences)
+sns.catplot(x='YearBuilt', y='SalePrice', data=home_data) # weak positive linearity, check interaction terms with other variables. Decently important variable in real world for house
+# pricing, of course other matters about the house can change significance but generally newer houses are correlated with higher prices, whether this relationship is linear is hard to tell.
 
+sns.catplot(x='Condition1', y='SalePrice', data=home_data) # weak linearity
+sns.boxplot(x='OverallQual', y='SalePrice', data=home_data) # decent positive linearity, however i'm suspicious about how this metric was measured, could be suspect to measurement error 
+# and make our coefficient estimates biased.
+
+sns.catplot(x='OverallCond', y='SalePrice', data=home_data) # week/no linearity between values 5-10
+sns.relplot(x='TotalBsmtSF', y='SalePrice', data=home_data) # strong positive linearity but this is a surprise to me, why is basement square footage so important?
+# I suspect this is a characteristic of Iowa or in general areas similar to Iowa where houses have basements, this is where domain knowledge kicks in and suggests further research.
+# I also see an outlier in the bottom right, house with 6000 basement sf but ~ 200k? Have to look into this sample
+
+sns.relplot(x='PoolArea', y='SalePrice', data=home_data) # pools are important features in housing price usually, however it seems like very few people own a pool in Iowa therefore we
+# wont incorporate a dummy variable about whether a house has a pool or not. Econometric literature usually incorporates pools into their housing price models however, of course domain
+# matters as well, not all regions of homes are equal, (ie west coast and east coast)
+
+sns.relplot(x='1stFlrSF', y='SalePrice', data=home_data) # strong positive linearity
+sns.relplot(x='2ndFlrSF', y='SalePrice', data=home_data) # positive linearity, however there are many houses that don't have a 2nd floor, should we turn this into a dummy variable?
+
+sns.boxplot(x='BedroomAbvGr', y='SalePrice', data=home_data) # no correlation between bedrooms and price
+
+### check markdown on kaggle kernel
 
 
 # Data exploration / visualization continued
