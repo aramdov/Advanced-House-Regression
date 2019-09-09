@@ -69,6 +69,12 @@ sns.boxplot(x='BedroomAbvGr', y='SalePrice', data=home_data) # no correlation be
 
 ### check markdown on kaggle kernel
 
+In summary on the graphs plotted above, some important explanatory variables include **"GrLivArea", "TotalBsmtSF", "OverallQual", "YearBuilt", "1stFlrSF", "2ndFlrSF".**
+
+Some variables that are runner ups are "FullBath", "KitchenQual", i'm dissapointed 'KitchenQual' does not have better correlation with 'SalePrice' because I've often heard the saying that "Kitchens sell houses" and how important kitchen size and quality are in residential real estate. My source of knowledge comes my father who works in residential real estate.
+
+These were the variables that fist came to my mind from my past experiences and domain knowledge, however now we will do a more breadth of analysis regarding the explanatory variables in this dataset.
+
 
 ### Data exploration / visualization continued
 %matplotlib inline
@@ -83,3 +89,17 @@ avgprice = home_data['SalePrice'].mean()
 avgprice
 
 sns.catplot(x='Neighborhood', y='SalePrice', data=home_data) # average seems to lie ~ 200k and only see 1 neighborhood that has noticeably higher prices
+
+
+
+### Extended Analyses
+
+# Correlation Matrices
+
+homecorrelation = home_data.corr()
+f, ax = plt.subplots(figsize=(14, 11))
+sns.heatmap(homecorrelation, vmax=.8, square=True)  # Variables that are shown to have correlation with Saleprice that are interesting, 'Fullbath', 'GarageCars', 'GarageArea'
+# ah, how could I forget how important garages are! However all these garage variables look too correlated with one another, I sense some multicollinearity. In addition if we look
+# deeper into these variables, it makes sense they contain similar information therefore indicating multicollinearity occurs. (Ie, more garagearea -> more garage cars)
+
+
